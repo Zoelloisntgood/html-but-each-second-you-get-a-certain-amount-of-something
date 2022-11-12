@@ -1,0 +1,121 @@
+<!DOCTYPE = html>
+
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>HTML but each second you get a certain amount of something</title>
+
+        <style>
+            body{
+                background-color: black;
+            }
+        </style>
+        <script>
+            var cash = 0;
+            var multi = 1;
+            var rebirth = 0;
+            var ultra = 0;
+            var prestige = 0;
+
+            function saveGame() {
+                    var gameSave = {
+                        cash: cash,
+                        multi: multi,
+                        rebirth: rebirth,
+                        ultra: ultra,
+                        prestige: prestige
+                    };
+                    localStorage.setItem("gameSave", JSON.stringify(gameSave));
+                }
+
+                function loadGame() {
+                    var savedGame = JSON.parse(localStorage.getItem("gameSave"));
+                    if (typeof savedGame.cash !== "undefined") cash = savedGame.cash;
+                    if (typeof savedGame.multi !== "undefined") multi = savedGame.multi;
+                    if (typeof savedGame.rebirth !== "undefined") rebirth = savedGame.rebirth;
+                    if (typeof savedGame.ultra !== "undefined") ultra = savedGame.ultra; 
+                    if (typeof savedGame.prestige !== "undefined") prestige = savedGame.prestige;  
+                }
+
+                window.onload = function() {
+                    loadGame();
+                };
+
+            setInterval(function() {
+                cash += multi;
+                document.getElementById("cash").innerHTML = cash;
+            },50);
+            setInterval(function() {
+                multi += rebirth;
+                document.getElementById("multi").innerHTML = multi;
+            },50);
+            setInterval(function() {
+                rebirth += ultra;
+                document.getElementById("rebirth").innerHTML = rebirth;
+            },50);
+            setInterval(function() {
+                ultra += prestige;
+                document.getElementById("ultra").innerHTML = ultra;
+            },50);
+            setInterval(function() {
+                if (cash >= 100) {
+                    multi += 1;
+                    cash = 0;
+                }
+                document.getElementById("cash").innerHTML = cash;
+                document.getElementById("multi").innerHTML = multi;
+            },10);
+            setInterval(function() {
+                if (multi >= 100) {
+                    rebirth += 1;
+                    cash = 0;
+                    multi = 1;
+                }
+                document.getElementById("cash").innerHTML = cash;
+                document.getElementById("multi").innerHTML = multi;
+                document.getElementById("rebirth").innerHTML = rebirth;
+            },10);
+            setInterval(function() {
+                if (rebirth >= 150) {
+                    ultra += 1;
+                    cash = 0;
+                    multi = 1;
+                    rebirth = 0;
+                }
+                document.getElementById("cash").innerHTML = cash;
+                document.getElementById("multi").innerHTML = multi;
+                document.getElementById("rebirth").innerHTML = rebirth;
+                document.getElementById("ultra").innerHTML = ultra;
+            },10);
+            setInterval(function() {
+                if (ultra >= 200) {
+                    prestige += 1;
+                    cash = 0;
+                    multi = 1;
+                    rebirth = 0;
+                    ultra = 0;
+                }
+                document.getElementById("cash").innerHTML = cash;
+                document.getElementById("multi").innerHTML = multi;
+                document.getElementById("rebirth").innerHTML = rebirth;
+                document.getElementById("ultra").innerHTML = ultra;
+                document.getElementById("prestige").innerHTML = prestige;
+            },10);
+            setInterval(function() {
+                saveGame()
+            },100);
+        </script>
+    </head>
+    <body>
+        <div style="text-align: center; font-family:Arial, Helvetica, sans-serif;">
+            <h1 style="color: #00ff00;">Cash: $<span id="cash">0</span></h1>
+            <h1 style="color: #ff0000;">Multi: x<span id="multi">0</span></h1>
+            <h1 style="color: #0000ff;">Rebirth: <span id="rebirth">0</span></h1>
+            <h1 style="color: #ff00ff;">Ultra: <span id="ultra">0</span></h1>
+            <h1 style="color: #00ffff;">Prestige: <span id="prestige">0</span></h1>
+
+
+
+        </div>
+    </body>
+</html>
